@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01.绘制一个点v2</title>
+</head>
+
+<body>
+    <canvas id="canvas_webgl" width="985" height="700"></canvas>
+    <script src="./index.js"></script>
+    <script src="../commonUtils/cuon-utils.js"></script>
+    <script>
+        const canvas = document.getElementById("canvas_webgl");
+
+        const gl = canvas.getContext("webgl");
+
+        // 初始化着色器
+        if(!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)){
+            console.log("无法初始化着色器");
+        }
+
+        const a_Position = gl.getAttribLocation(gl.program, "a_Position");  // 获取 attribute 变量的存储位置
+        gl.vertexAttrib3f(a_Position, -0.35, -0.3, 0.0);                    // 将顶点位置传输给 attribute 变量
+
+        const a_PointSize = gl.getAttribLocation(gl.program, "a_PointSize");
+        gl.vertexAttrib1f(a_PointSize, 30.0);
+
+        const u_FragColor = gl.getUniformLocation(gl.program, "u_FragColor");// 片元着色器中用 uniform 定义变量
+        gl.uniform4f(u_FragColor, 1.0, 1.0, 0.0, 1.0);
+
+
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.POINTS, 0, 1);
+    </script>
+</body>
+
+</html>

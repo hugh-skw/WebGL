@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01.绘制一个点</title>
+</head>
+
+<body>
+    <canvas id="canvas_webgl" width="985" height="700"></canvas>
+    <script src="./index.js"></script>
+    <script src="../commonUtils/cuon-utils.js"></script>
+    <script>
+        const canvas = document.getElementById("canvas_webgl");
+
+        const gl = canvas.getContext("webgl");
+
+        // 初始化着色器
+        if(!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)){
+            console.log("无法初始化着色器");
+        }
+
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.POINTS, 0, 1);
+    </script>
+</body>
+
+</html>

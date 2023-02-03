@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01.绘制一个点v2</title>
+    <style>
+        * {
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas_webgl" width="650" height="757"></canvas>
+    <!-- <script src="./index_translate.js"></script> -->
+    <script src="../commonUtils/webgl-utils.js"></script>
+    <script src="../commonUtils/webgl-debug.js"></script>
+    <script src="../commonUtils/cuon-utils.js"></script>
+    <script src="./index_rotate_matrix.js"></script>    <!-- 缩放的shader操作与之前矩阵旋转一样 -->
+    <script>
+        const canvas = document.getElementById("canvas_webgl");
+
+        const gl = getWebGLContext(canvas);
+
+        // 初始化着色器
+        if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
+            console.log("无法初始化着色器");
+        }
+
+        // 设置顶点位置
+        let n = initVertexBuffers(gl);
+
+        function initVertexBuffers(gl, verticesP) {
+            const vertices = verticesP || new Float32Array([
+                0.0, 0.5, -0.5, -0.5, 0.5, -0.5
+            ]);
+            let n = 3;          // 顶点个数
+
+            // 创建缓冲区对象
+            let vertexBuffer = gl.createBuffer();
+            if (!vertexBuffer) {
+                console.log("无法创建缓冲区对象");
+                return -1;
+            }
+
+            // 将缓冲区对象绑定到目标
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+
+            // 向缓冲区对象中写入数据
+            gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+            const Sx = 1.2, Sy = 0.6, Sz = 1.0;
+            
+            const xformMatrix = new Float32Array([
+                Sx, 0.0, 0.0, 0.0,
+                0.0, Sy, 0.0, 0.0,
+                0.0, 0.0, Sz, 0.0,
+                0.0, 0.0, 0.0, 1.0
+            ])
+            const u_xformMatrix = gl.getUniformLocation(gl.program, 'u_xformMatrix');
+            gl.uniformMatrix4fv(u_xformMatrix, false, xformMatrix);
+
+            const u_FragColor = gl.getUniformLocation(gl.program, "u_FragColor");// 片元着色器中用 uniform 定义变量
+            gl.uniform4f(u_FragColor, 1.0, 1.0, 0.0, 1.0);
+            
+            // 将缓冲区对象分配给 a_Position 变量
+            const a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+            gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
+
+            // 连接 a_Position 变量与分配给它的缓冲区对象
+            gl.enableVertexAttribArray(a_Position);
+
+            return n;
+        }
+
+
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.TRIANGLES, 0, n);      // 第一个参数mode规定了绘制图形类型为三角形，这种类型下，顶点着色器中不需要再设置点的尺寸。
+                                                // gl.TRIANGLES相当于告诉webgl从first(第二个参数)开始，用接下去的count(第三个参数)个点，绘制一个三角形。
+    </script>
+</body>
+
+</html>

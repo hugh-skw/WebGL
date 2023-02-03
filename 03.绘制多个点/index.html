@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01.绘制一个点v2</title>
+</head>
+
+<body>
+    <canvas id="canvas_webgl" width="660" height="1157"></canvas>
+    <script src="./index.js"></script>
+    <script src="../commonUtils/cuon-utils.js"></script>
+    <script>
+        const canvas = document.getElementById("canvas_webgl");
+
+        const gl = canvas.getContext("webgl");
+
+        // 初始化着色器
+        if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
+            console.log("无法初始化着色器");
+        }
+
+        // 设置顶点位置
+        let n = initVertexBuffers(gl)
+
+        let flag = false;
+        function initVertexBuffers(gl, verticesP) {
+            const vertices = verticesP || new Float32Array([
+                0.0, 0.5, -0.5, -0.5, 0.5, -0.5
+            ]);
+            let n = 3;          // 顶点个数
+
+            // 创建缓冲区对象
+            let vertexBuffer = gl.createBuffer();
+            if (!vertexBuffer) {
+                console.log("无法创建缓冲区对象");
+                return -1;
+            }
+
+            // 将缓冲区对象绑定到目标
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+
+            // 向缓冲区对象中写入数据
+            gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+            const a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+            const a_PointSize = gl.getAttribLocation(gl.program, "a_PointSize");
+            gl.vertexAttrib1f(a_PointSize, 30.0);
+
+            const u_FragColor = gl.getUniformLocation(gl.program, "u_FragColor");// 片元着色器中用 uniform 定义变量
+            gl.uniform4f(u_FragColor, 1.0, 1.0, 0.0, 1.0);
+            // 将缓冲区对象分配给 a_Position 变量
+            gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
+
+            // 连接 a_Position 变量与分配给它的缓冲区对象
+            gl.enableVertexAttribArray(a_Position);
+
+            // setTimeout(() => {
+            //     console.log("清除");
+            //     if (flag) {
+            //         return;
+            //     }
+            //     const vertices2 = new Float32Array([
+            //         0.0, 0.5, -0.5, -0.5, -0.5, 0.5
+            //     ]);
+            //     // gl.disableVertexAttribArray(a_Position);
+            //     // gl.deleteBuffer(vertexBuffer);
+            //     initVertexBuffers(gl, vertices2);
+            //     gl.clear(gl.COLOR_BUFFER_BIT);
+            //     gl.drawArrays(gl.POINTS, 1, n - 1);     // 缓冲区对象中的 n 个点
+            //     flag = true;
+            // }, 3000)
+
+            return n;
+        }
+
+
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.POINTS, 0, n);     // 缓冲区对象中的 n 个点，第二第三个参数的和小于等于n,如果第三个参数偏大，会默认在（0.0,0.0）的位置自动绘制
+    </script>
+</body>
+
+</html>
