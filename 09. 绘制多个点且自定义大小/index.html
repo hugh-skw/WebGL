@@ -1,10 +1,20 @@
+<!--
+ * @Author       : shikewen
+ * @Date         : 2023-02-20 10:32:36
+ * @LastEditors  : shikewen
+ * @LastEditTime : 2023-02-20 13:05:34
+ * @FilePath     : index.html
+ * @Description  : 
+ * Copyright 2023 OBKoro1, All Rights Reserved. 
+ * 2023-02-20 10:32:36
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>动画</title>
+    <title>绘制多个点且自定义大小</title>
     <style>
         *{
             overflow: hidden;
@@ -14,11 +24,14 @@
             height: 100%;
             padding: 0;
             margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
 <body onload="main()">
-    <canvas id="canvas_webgl" style="width: 100%; height: 100%;"></canvas>
+    <canvas id="canvas_webgl" width="500" height="500"></canvas>
 
     <script src="../commonUtils/webgl-debug.js"></script>
     <script src="../commonUtils/webgl-utils.js"></script>
