@@ -1,3 +1,13 @@
+<!--
+ * @Author       : shikewen
+ * @Date         : 2023-02-04 19:00:04
+ * @LastEditors  : shikewen
+ * @LastEditTime : 2023-02-27 13:33:21
+ * @FilePath     : index.html
+ * @Description  : 
+ * Copyright 2023 OBKoro1, All Rights Reserved. 
+ * 2023-02-04 19:00:04
+-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -63,7 +73,7 @@
 
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT);
-        gl.drawArrays(gl.TRIANGLES, 1, n-1);     // 第一个参数mode规定了绘制图形类型为三角形，这种类型下，顶点着色器中不需要再设置点的尺寸。
+        gl.drawArrays(gl.TRIANGLES, 1, n - 1);     // 第一个参数mode规定了绘制图形类型为三角形，这种类型下，顶点着色器中不需要再设置点的尺寸。
                                                  // gl.TRIANGLES相当于告诉webgl从first(第二个参数)开始，用接下去的count(第三个参数)个点，绘制一个三角形。
     </script>
 </body>

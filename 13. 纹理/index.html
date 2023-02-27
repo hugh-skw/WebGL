@@ -1,0 +1,42 @@
+<!--
+ * @Author       : shikewen
+ * @Date         : 2023-02-20 14:44:53
+ * @LastEditors  : shikewen
+ * @LastEditTime : 2023-02-27 13:15:01
+ * @FilePath     : index.html
+ * @Description  : 
+ * Copyright 2023 OBKoro1, All Rights Reserved. 
+ * 2023-02-20 14:44:53
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>绘制多个点且自定义大小</title>
+    <style>
+        *{
+            overflow: hidden;
+        }
+        html, body {
+            width: 100%; 
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body onload="main()">
+    <canvas id="canvas_webgl" width="500" height="500"></canvas>
+
+    <script src="../commonUtils/webgl-debug.js"></script>
+    <script src="../commonUtils/webgl-utils.js"></script>
+    <script src="../commonUtils/cuon-matrix.js"></script>
+    <script src="../commonUtils/cuon-utils.js"></script>
+    <script src="./index.js"></script>
+</body>
+</html>
